@@ -12,3 +12,9 @@ config.ini
 config_*.ini
 config-*.ini
 test.ini
+
+# Node
+node_modules/
+
+# Catalogue généré par CI (ne pas versionner)
+docs/index.html
