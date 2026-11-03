@@ -2,6 +2,10 @@ import { homedir } from 'os'
 import { join } from 'path'
 import { existsSync } from 'fs'
 
+export function getClaudeDir() {
+  return join(homedir(), '.claude')
+}
+
 export function getClaudeCommandsDir() {
   return join(homedir(), '.claude', 'commands')
 }
@@ -29,7 +33,9 @@ export function getCopilotInstructionsDir() {
 
 export function detectTargets() {
   const targets = []
-  if (existsSync(getClaudeCommandsDir())) targets.push('claude')
+  // Claude Code est détecté via ~/.claude/ (settings.json présent à l'install)
+  if (existsSync(getClaudeDir())) targets.push('claude')
+  // Copilot : le dossier instructions doit exister explicitement
   if (existsSync(getCopilotInstructionsDir())) targets.push('copilot')
   return targets
 }
