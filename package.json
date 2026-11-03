@@ -1,0 +1,21 @@
+{
+  "name": "skign",
+  "version": "0.1.0",
+  "description": "CLI tool to manage AI coding assistant skills for Claude Code and GitHub Copilot",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "bin": {
+    "skign": "./skill-manager/bin/skign.js"
+  },
+  "files": [
+    "skill-manager/",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IGNF/skills-ai4dev.git"
+  },
+  "license": "MIT"
+}
