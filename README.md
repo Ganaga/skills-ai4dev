@@ -1,49 +1,105 @@
-# Modèle de ReadMe
+# skills-ai4dev
 
-Ci-dessous une proposition de readme pour tout projet
+Catalogue de skills d'assistance au code IA pour **Claude Code** et **GitHub Copilot**, géré via le CLI `skign`.
 
+Catalogue en ligne : **https://ganaga.github.io/skills-ai4dev/**
 
-## Description/Résumé du projet
-
-Dans cette section, on décrit la vision générale du projet ainsi que ses objectifs à destination des futurs utilisateurs et des développeurs.
-
-Pour ce dépôt : 
-
-Ce dépôt permet de répertorier les différents éléments essentiels dans un dépôt SIDC :
-* ce ReadMe
-* des modèles de tickets type pour des ajouts de fonctionnalité, réparation de bug, ajout de documentation, maintenance/montée de version...
-* des milestones témoins (ex: backlog, sprint1...)
-* des exemples de github Actions CI/CD (lancement de test, build d'images...)
-* des exemples de label pour les futurs tickets
-
+---
 
 ## Installation
 
-La procédure d'installation du projet doit être décrite dans cette section ou dans un fichier complémentaire dont le lien est présent ici.
+```bash
+npm install -g github:Ganaga/skills-ai4dev
+```
 
+> Prérequis : Node.js 18+
 
-## Documentation développeurs
+---
 
-Lien vers la documentation pour les développeurs, à la fois pour maintenir le projet, le déployer et ajouter de nouvelles fonctionnalités. Schémas UML...
+## Utilisation
 
+### Lister les skills disponibles
 
-## L'arborescence du projet
+```bash
+skign --catalog
+```
 
-Exemple d'arborescence de projet :
+### Installer une skill
 
-* `.github/` : dossier contenant les modèles d'issues et github actions ;
-* `.vscode/` : dossier contenant une configuration vscode pour le projet;
-* `doc/` : dossier contenant des fichiers .md de documentation (ex: install.md) ;
-* `tests/`: scripts et explications pour lancer les tests ;
-* `README.md` : ce fichier
+```bash
+skign --install review/code-review
+```
 
-## Contacts du projets
+`skign` détecte automatiquement les outils installés :
+- **Claude Code** : installe dans `~/.claude/commands/<theme>/<nom>.md`
+- **GitHub Copilot** : installe dans `~/.config/github-copilot/instructions/<theme>-<nom>.md`
 
-Ici on met la liste des personnes qui travaillent sur ce projet et le maintiennent à jour.
+L'installation ne se fait que si le dossier de settings de l'outil existe déjà.
 
+### Mettre à jour toutes les skills installées
 
-|Nom|Prénom|mail|fonction|
-|---|---|---|---|
-|   |   |   |   |
-|   |   |   |   |
-|   |   |   |   |
+```bash
+skign --update
+```
+
+### Supprimer une skill
+
+```bash
+skign --delete review/code-review
+```
+
+---
+
+## Skills disponibles
+
+| Thème           | Skill            | Description                                                       |
+|-----------------|------------------|-------------------------------------------------------------------|
+| `review`        | `code-review`    | Relit une PR pour en vérifier la correction, le style et les tests |
+| `new_feature`   | `new-feature`    | Guide l'implémentation d'une nouvelle fonctionnalité              |
+| `ticketing`     | `write-ticket`   | Rédige un ticket de fonctionnalité ou de bug                      |
+| `documentation` | `write-docs`     | Rédige de la documentation technique claire et maintenable        |
+
+---
+
+## Ajouter une skill
+
+1. Créer un fichier `.md` dans `skills/<theme>/` avec le frontmatter requis :
+
+```markdown
+---
+name: ma-skill
+theme: mon-theme
+description: Description courte affichée dans le catalogue
+version: 1.0.0
+authors:
+  - MonOrg
+---
+
+Contenu des instructions pour le LLM...
+```
+
+2. Ouvrir une PR — le catalogue GitHub Pages se met à jour automatiquement au merge.
+
+---
+
+## Structure du projet
+
+```
+skills-ai4dev/
+├── skill-manager/   # Code source du CLI skign
+├── skills/          # Skills au format Markdown
+│   ├── review/
+│   ├── new_feature/
+│   ├── ticketing/
+│   └── documentation/
+├── specs/           # Spécification du projet
+├── catalog/         # Script de génération du catalogue HTML
+└── docs/            # GitHub Pages (généré par CI)
+```
+
+---
+
+## Documentation
+
+- [Spécification skign](specs/skign-spec.md)
+- [Conventions de commit](docs/developper/Doc_commit.md)
