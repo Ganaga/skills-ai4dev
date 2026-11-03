@@ -33,8 +33,8 @@ export function getCopilotInstructionsDir() {
 
 export function detectTargets() {
   const targets = []
-  // Claude Code est détecté via ~/.claude/ (settings.json présent à l'install)
-  if (existsSync(getClaudeDir())) targets.push('claude')
+  // Claude Code est détecté via ~/.claude/settings.json (créé au premier lancement)
+  if (existsSync(join(getClaudeDir(), 'settings.json'))) targets.push('claude')
   // Copilot : le dossier instructions doit exister explicitement
   if (existsSync(getCopilotInstructionsDir())) targets.push('copilot')
   return targets
