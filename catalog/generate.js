@@ -45,6 +45,7 @@ function collectSkills() {
         theme: meta.theme || theme,
         name: meta.name || file.replace('.md', ''),
         description: meta.description || '',
+        details: meta.details || '',
         version: meta.version || '?',
         id: `${meta.theme || theme}/${meta.name || file.replace('.md', '')}`
       })
@@ -73,20 +74,31 @@ function generateHtml(skills) {
 
   const themeBlocks = Object.entries(byTheme).map(([theme, themeSkills]) => {
     const icon = THEME_ICONS[theme] || '⚙️'
-    const cards = themeSkills.map(s => `
+    const cards = themeSkills.map(s => {
+      const safeId = escapeHtml(s.id.replace('/', '-'))
+      const detailsBlock = s.details ? `
+          <div class="details-box" id="details-${safeId}" hidden>
+            <p class="details-text">${escapeHtml(s.details)}</p>
+          </div>
+          <button class="voir-plus" onclick="toggleDetails('${safeId}', this)" aria-expanded="false">
+            Voir plus <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>` : ''
+      return `
         <div class="card">
           <div class="card-top">
             <span class="skill-name">${escapeHtml(s.name)}</span>
             <span class="badge">v${escapeHtml(s.version)}</span>
           </div>
           <p class="skill-desc">${escapeHtml(s.description)}</p>
+          ${detailsBlock}
           <div class="install-box">
-            <code id="cmd-${escapeHtml(s.id.replace('/', '-'))}">skign --install ${escapeHtml(s.id)}</code>
-            <button class="copy-btn" onclick="copyCmd('${escapeHtml(s.id.replace('/', '-'))}', this)" title="Copier la commande">
+            <code id="cmd-${safeId}">skign --install ${escapeHtml(s.id)}</code>
+            <button class="copy-btn" onclick="copyCmd('${safeId}', this)" title="Copier la commande">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             </button>
           </div>
-        </div>`).join('')
+        </div>`
+    }).join('')
 
     return `
       <section class="theme-section">
@@ -254,6 +266,34 @@ function generateHtml(skills) {
     .copy-btn:hover { color: var(--ign-green); background: #EEF7E8; }
     .copy-btn.copied { color: var(--ign-green); }
 
+    /* ── Voir plus ── */
+    .voir-plus {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--ign-green-dark);
+      font-size: .78rem;
+      font-weight: 600;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      gap: .25rem;
+      transition: color .15s;
+    }
+    .voir-plus:hover { color: var(--ign-green); }
+    .voir-plus .chevron { transition: transform .2s; flex-shrink: 0; }
+    .voir-plus[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+    .details-box {
+      background: #F0F8EA;
+      border-left: 3px solid var(--ign-green);
+      border-radius: 0 4px 4px 0;
+      padding: .6rem .8rem;
+      animation: fadeIn .15s ease;
+    }
+    .details-box[hidden] { display: none; }
+    .details-text { font-size: .82rem; color: #444; line-height: 1.55; margin: 0; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
     /* ── Footer ── */
     footer {
       text-align: center;
@@ -310,6 +350,14 @@ function generateHtml(skills) {
       btn.classList.add('copied')
       setTimeout(() => btn.classList.remove('copied'), 2000)
     })
+  }
+
+  function toggleDetails(id, btn) {
+    const box = document.getElementById('details-' + id)
+    const expanded = btn.getAttribute('aria-expanded') === 'true'
+    box.hidden = expanded
+    btn.setAttribute('aria-expanded', String(!expanded))
+    btn.firstChild.textContent = expanded ? 'Voir plus ' : 'Voir moins '
   }
 </script>
 </body>

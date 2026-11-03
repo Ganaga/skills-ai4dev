@@ -1,7 +1,8 @@
 ---
 name: jira-ticket
 theme: ticketing
-description: Analyse et traite un ticket Jira pour en extraire les tâches techniques à implémenter
+description: Implémente un ticket Jira de bout en bout selon les standards IGN
+details: Analyse le ticket et le code existant, pose les questions manquantes, puis implémente la solution en respectant les conventions de nommage IGN. Écrit les tests unitaires et d'intégration, met à jour le CHANGELOG, lance les vérifications (lint, tests) et propose une PR après validation explicite de l'utilisateur.
 version: 1.0.0
 authors:
   - IGNF
@@ -9,44 +10,83 @@ authors:
 
 ## Objectif
 
-Tu analyses un ticket Jira et tu aides à le traiter de bout en bout : compréhension du besoin, découpage technique, implémentation et validation.
+Tu traites un ticket Jira de bout en bout : compréhension, implémentation, tests, changelog et PR — en respectant les conventions IGN.
 
-## Instructions
+## Étapes
 
-### Analyse du ticket
+### 1. Analyse du ticket
 
-Lorsqu'on te soumet un ticket Jira (titre, description, critères d'acceptation) :
+- Reformule l'objectif en une phrase technique claire.
+- Identifie les fichiers concernés en analysant le code existant.
+- Liste les questions bloquantes avant de commencer. **Attends la réponse avant de poursuivre.**
 
-1. **Reformule** l'objectif en une phrase technique claire.
-2. **Identifie** les ambiguïtés ou informations manquantes — pose les questions avant de coder.
-3. **Découpe** le travail en sous-tâches techniques ordonnées.
-4. **Estime** la complexité de chaque sous-tâche (simple / moyenne / complexe).
+### 2. Plan d'implémentation
 
-### Implémentation
+Découpe le travail en sous-tâches ordonnées avec une estimation (simple / moyenne / complexe).
+Soumets ce plan à l'utilisateur et **attends sa validation avant de coder**.
 
-- Commence par la sous-tâche la plus petite et la plus indépendante.
-- Respecte les conventions du projet (nommage, structure, commits conventionnels).
-- Pour chaque sous-tâche terminée, indique ce qui a été fait et ce qui reste.
+### 3. Implémentation
 
-### Validation
+Respecte les conventions de nommage IGN :
+- **Classes** : PascalCase (`CarteTopographique`)
+- **Méthodes/variables** : camelCase (`calculerEmprise`)
+- **Constantes** : SCREAMING_SNAKE_CASE (`SRID_LAMBERT93`)
+- **Fichiers** : kebab-case (`carte-topographique.ts`)
+- **Commits** : format Angular `type(scope): sujet #<numéro ticket>`
 
-- Vérifie chaque critère d'acceptation du ticket explicitement (✓ / ✗).
-- Si un critère ne peut pas être vérifié automatiquement, indique comment le tester manuellement.
+Commence par la plus petite sous-tâche indépendante. Indique ta progression après chaque sous-tâche.
 
-## Format de réponse attendu
+### 4. Tests
 
+Pour chaque fonction modifiée ou créée :
+- Écris les tests unitaires (cas nominal, cas aux limites, cas d'erreur).
+- Vérifie que les tests existants passent toujours.
+- Si un test ne peut pas être automatisé, documente le cas de test manuel.
+
+### 5. Mise à jour du CHANGELOG
+
+Ajoute une entrée dans `CHANGELOG.md` sous `[Unreleased]` selon le format Keep a Changelog :
+
+```markdown
+### Added / Changed / Fixed
+- Description de la modification (#<numéro ticket>)
 ```
-## Analyse
-<reformulation de l'objectif>
 
-## Questions / ambiguïtés
-<liste ou "Aucune">
+### 6. Vérifications
 
-## Plan d'implémentation
-1. <sous-tâche> — <complexité>
-2. ...
+Lance dans l'ordre :
+1. Lint / formatage (`npm run lint` ou équivalent)
+2. Tests (`npm test` ou équivalent)
+3. Build si applicable
+
+Reporte les erreurs et corrige-les avant de continuer.
+
+### 7. Création de la PR
+
+**Attends la validation explicite de l'utilisateur** ("c'est bon", "ok pour la PR", etc.) avant de créer la PR.
+
+Titre de la PR : `type(scope): sujet #<numéro ticket>`
+
+Corps de la PR :
+```
+## Résumé
+<description des changements>
+
+## Ticket
+Closes #<numéro ticket>
+
+## Tests
+- [ ] Tests unitaires ajoutés / mis à jour
+- [ ] Tests existants passent
+
+## Checklist
+- [ ] CHANGELOG mis à jour
+- [ ] Conventions de nommage IGN respectées
+```
 
 ## Validation des critères d'acceptation
-- [ ] <critère 1>
-- [ ] <critère 2>
-```
+
+À la fin de l'implémentation, vérifie chaque critère d'acceptation du ticket :
+- ✓ : critère satisfait
+- ✗ : critère non satisfait (explique pourquoi)
+- ? : critère non vérifiable automatiquement (propose un test manuel)

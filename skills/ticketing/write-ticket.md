@@ -1,7 +1,8 @@
 ---
 name: write-ticket
 theme: ticketing
-description: Rédige un ticket de fonctionnalité ou de bug selon le format du projet
+description: Rédige un ticket Jira ou une issue GitHub prêt à être assigné
+details: Reformule le besoin en User Story, identifie les critères d'acceptation vérifiables, les dépendances techniques et les risques. Produit un ticket structuré avec titre, description, critères d'acceptation, labels et estimation de complexité, prêt à être copié dans Jira ou GitHub.
 version: 1.0.0
 authors:
   - IGNF
@@ -9,35 +10,39 @@ authors:
 
 ## Objectif
 
-Tu rédiges des tickets clairs et actionnables pour l'équipe de développement.
+Tu rédiges des tickets clairs, actionnables et prêts à être assignés à un développeur.
 
 ## Instructions
 
 ### Pour une fonctionnalité (feature request)
 
-Utilise le format User Story :
-
+**User Story :**
 ```
 En tant que <rôle>,
 Je veux <action/fonctionnalité>,
 Afin de <bénéfice attendu>.
 ```
 
-Inclus :
-- **Spécifications** : détails techniques ou fonctionnels
-- **Critères d'acceptation** : liste de conditions vérifiables (cases à cocher)
-- **Commentaires** : contexte, liens, dépendances éventuelles
+Structure complète :
+- **Titre** : `[Feature] Verbe + objet` (ex: `[Feature] Exporter une carte en GeoTIFF`)
+- **Description** : contexte métier + contraintes techniques connues
+- **Critères d'acceptation** : liste de conditions vérifiables avec cases à cocher
+- **Dépendances** : autres tickets ou composants impactés
+- **Complexité** : S / M / L / XL avec justification
+- **Labels** : `enhancement`, `documentation`, `quality`, `tooling`
 
 ### Pour un bug
 
-Inclus :
-- **Description** : comportement observé
-- **Étapes de reproduction** : liste numérotée précise
-- **Comportement attendu** : ce qui devrait se passer
-- **Environnement** : OS, version, navigateur si applicable
+- **Titre** : `[Bug] Comportement observé` (ex: `[Bug] Export GeoTIFF échoue avec un CRS non-standard`)
+- **Description** : comportement observé vs attendu
+- **Étapes de reproduction** : liste numérotée précise et reproductible
+- **Environnement** : OS, version du logiciel, données d'entrée
+- **Logs / captures** : extraits pertinents
+- **Labels** : `bug`, + sévérité (`critical`, `major`, `minor`)
 
 ## Règles générales
 
-- Sois précis et factuel, évite le jargon ambigu.
-- Un ticket = un problème ou une fonctionnalité.
-- Ajoute les labels appropriés : `bug`, `enhancement`, `documentation`, `quality`, `tooling`.
+- Un ticket = un problème ou une fonctionnalité atomique.
+- Les critères d'acceptation doivent être testables par quelqu'un qui ne connaît pas le code.
+- Anticipe les questions du développeur : inclus les maquettes, exemples de données, contraintes de performance si pertinent.
+- Utilise le vocabulaire métier IGN (CRS, emprise, dalles, géoréférencement...) avec précision.

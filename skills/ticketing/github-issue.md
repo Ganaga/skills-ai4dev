@@ -1,7 +1,8 @@
 ---
 name: github-issue
 theme: ticketing
-description: Analyse et traite une issue GitHub pour en extraire les tâches techniques à implémenter
+description: Implémente une issue GitHub de bout en bout selon les standards IGN
+details: Analyse l'issue et le code existant, détermine le type (bug/feature/docs), pose les questions manquantes, puis implémente la solution. Écrit les tests, met à jour le CHANGELOG, lance les vérifications et crée la PR avec `Closes #numéro` après validation explicite de l'utilisateur.
 version: 1.0.0
 authors:
   - IGNF
@@ -9,47 +10,80 @@ authors:
 
 ## Objectif
 
-Tu analyses une issue GitHub et tu aides à la traiter : compréhension du besoin, implémentation, et préparation de la pull request.
+Tu traites une issue GitHub de bout en bout : analyse, implémentation, tests, changelog et PR.
 
-## Instructions
+## Étapes
 
-### Analyse de l'issue
+### 1. Analyse de l'issue
 
-Lorsqu'on te soumet une issue GitHub (titre, description, labels) :
+- Détermine le type : **bug**, **feature**, **documentation**, **question**.
+- Reformule le problème ou le besoin en une phrase technique.
+- Identifie les fichiers concernés en analysant le code existant.
+- Liste les informations manquantes. **Attends les réponses avant de poursuivre.**
 
-1. **Détermine le type** : bug, feature, documentation, question.
-2. **Reformule** l'objectif ou le problème en une phrase technique claire.
-3. **Identifie** les informations manquantes — pose les questions avant de coder.
-4. **Propose** une approche d'implémentation ou de correction.
+### 2. Plan d'implémentation
 
-### Implémentation
+- **Bug** : reproduis d'abord le problème, identifie la cause racine, propose le correctif.
+- **Feature** : propose l'interface publique (API, signatures) avant d'implémenter le corps.
 
-- Respecte les conventions du projet (commits conventionnels : `fix`, `feat`, `docs`...).
-- Pour un **bug** : reproduis d'abord le problème, identifie la cause racine, puis corrige.
-- Pour une **feature** : propose l'interface (API, signature de fonction) avant le corps.
-- Référence l'issue dans le commit : `fix(scope): description #<numéro>`.
+Soumets le plan à l'utilisateur et **attends sa validation avant de coder**.
 
-### Préparation de la pull request
+### 3. Implémentation
 
-- Titre : suit le format Angular (`type(scope): sujet #numéro`).
-- Description : résumé des changements, lien vers l'issue (`Closes #<numéro>`), plan de test.
-- Vérifie que les labels de l'issue correspondent aux changements effectués.
+Respecte les conventions de nommage IGN :
+- **Classes** : PascalCase (`CarteTopographique`)
+- **Méthodes/variables** : camelCase (`calculerEmprise`)
+- **Constantes** : SCREAMING_SNAKE_CASE (`SRID_LAMBERT93`)
+- **Fichiers** : kebab-case (`carte-topographique.ts`)
+- **Commits** : format Angular `type(scope): sujet #<numéro issue>`
 
-## Format de réponse attendu
+Pour un bug : corrige la cause racine, pas le symptôme.
 
+### 4. Tests
+
+- Tests unitaires : cas nominal, cas aux limites, cas d'erreur.
+- **Bug** : ajoute un test de non-régression qui aurait détecté le bug.
+- Vérifie que tous les tests existants passent.
+
+### 5. Mise à jour du CHANGELOG
+
+```markdown
+### Added / Fixed / Changed
+- Description de la modification (Closes #<numéro issue>)
 ```
-## Type d'issue
-<bug | feature | documentation | question>
 
-## Analyse
-<reformulation du problème ou besoin>
+### 6. Vérifications
 
-## Questions / informations manquantes
-<liste ou "Aucune">
+1. Lint / formatage
+2. Tests
+3. Build si applicable
 
-## Approche proposée
-<description technique de la solution>
+Corrige toutes les erreurs avant de continuer.
 
-## Titre de PR suggéré
-<type(scope): sujet #numéro>
+### 7. Création de la PR
+
+**Attends la validation explicite de l'utilisateur** avant de créer la PR.
+
+Titre : `type(scope): sujet #<numéro issue>`
+
+Corps :
+```
+## Résumé
+<description des changements>
+
+## Issue
+Closes #<numéro issue>
+
+## Type de changement
+- [ ] Bug fix
+- [ ] Nouvelle fonctionnalité
+- [ ] Documentation
+
+## Tests
+- [ ] Tests ajoutés / mis à jour
+- [ ] Tests existants passent
+
+## Checklist
+- [ ] CHANGELOG mis à jour
+- [ ] Conventions de nommage IGN respectées
 ```
