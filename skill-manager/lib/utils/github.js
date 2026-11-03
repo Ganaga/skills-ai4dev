@@ -1,5 +1,5 @@
-const BASE_RAW = 'https://raw.githubusercontent.com/IGNF/skills-ai4dev/main'
-const BASE_API = 'https://api.github.com/repos/IGNF/skills-ai4dev'
+const BASE_RAW = 'https://raw.githubusercontent.com/Ganaga/skills-ai4dev/main'
+const BASE_API = 'https://api.github.com/repos/Ganaga/skills-ai4dev'
 
 export function resolveUrl(input) {
   if (input.includes('://')) return input

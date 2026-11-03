@@ -8,7 +8,7 @@ Une skill est un fichier Markdown contenant des instructions pour un assistant I
 Le tool est installable directement depuis GitHub, sans publication sur npm :
 
 ```bash
-npm install -g github:IGNF/skills-ai4dev
+npm install -g github:Ganaga/skills-ai4dev
 ```
 
 ---
@@ -50,7 +50,7 @@ Chaque skill est identifiée par `theme/nom` (ex: `review/code-review`).
 
 ### `skign --catalog`
 
-Liste les skills disponibles dans le repo `IGNF/skills-ai4dev`, groupées par thème.
+Liste les skills disponibles dans le repo `Ganaga/skills-ai4dev`, groupées par thème.
 
 - Utilise l'API GitHub (git tree) + fetch parallèle des fichiers
 - Cache local TTL 1h dans `~/.skign/catalog-cache.json`
@@ -107,7 +107,7 @@ Fichier `~/.skign/installed.json` :
 ```json
 {
   "review/code-review": {
-    "url": "https://raw.githubusercontent.com/IGNF/skills-ai4dev/main/skills/review/code-review.md",
+    "url": "https://raw.githubusercontent.com/Ganaga/skills-ai4dev/main/skills/review/code-review.md",
     "installedAt": "2026-11-03T10:00:00.000Z",
     "contentHash": "6ae8a75...",
     "targets": ["claude", "copilot"]
